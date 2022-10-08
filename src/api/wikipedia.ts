@@ -9,11 +9,10 @@ export type WikipediaSearchResult = [
   string[]
 ];
 
-
-export interface ArticleLink  {
+export interface ArticleLink {
   title: string;
   href: string;
-};
+}
 
 function delay(delayMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, delayMs));
@@ -40,7 +39,8 @@ export async function fetchWikipediaOpenSearch(
 
   await delay(2_000);
 
-  const [, titleList, , urlList]: WikipediaSearchResult = (await res.json() as WikipediaSearchResult);
+  const [, titleList, , urlList]: WikipediaSearchResult =
+    (await res.json()) as WikipediaSearchResult;
 
   return titleList.map((title, i) => ({ title, href: urlList[i] }));
 }

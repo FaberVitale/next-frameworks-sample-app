@@ -2,18 +2,22 @@ import { createResource, JSX, Suspense, ErrorBoundary, For } from "solid-js";
 import { fetchWikipediaOpenSearch } from "./api/wikipedia";
 
 function getSearchTerm(): string | null {
-  return new URLSearchParams(window.location.search).get("q");
+  return new URLSearchParams(window.location.search).get("q") || null;
 }
 
 function Articles() {
-  const [articles] = createResource(
-    getSearchTerm,
-    fetchWikipediaOpenSearch
-  );
+  const [articles] = createResource(getSearchTerm, fetchWikipediaOpenSearch);
 
   return (
     <ul class="wikipedia-links">
-      <For each={articles()} fallback={<div>0 results :(</div>}>
+      <For
+        each={articles()}
+        fallback={
+          <li>
+            <p>0 results :(</p>
+          </li>
+        }
+      >
         {({ title, href }) => (
           <li>
             <a
@@ -32,18 +36,11 @@ function Articles() {
 }
 
 export function App(): JSX.Element {
-  const [searchResults] = createResource(
-    getSearchTerm,
-    fetchWikipediaOpenSearch
-  );
-
   return (
     <article>
       <h1>Wikipedia search: {getSearchTerm() || ""}</h1>
       <ErrorBoundary
-        fallback={
-          <div class="alert alert-danger">{String(searchResults.error)}</div>
-        }
+        fallback={(err) => <div class="alert alert-danger">{String(err)}</div>}
       >
         <Suspense fallback={<div class="alert alert-primary">Loading...</div>}>
           <Articles />
