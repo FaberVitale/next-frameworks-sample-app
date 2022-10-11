@@ -16,6 +16,8 @@ export async function fetchWikipediaOpenSearch(
   query: string,
   signal?: AbortSignal
 ): Promise<ArticleLink[]> {
+  if (!query || query.length < 2) return [];
+
   const queryUrl = new URL(
     "https://en.wikipedia.org/w/api.php?action=opensearch&limit=100&namespace=0&format=json&origin=*"
   );

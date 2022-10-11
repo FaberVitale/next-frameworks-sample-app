@@ -7,7 +7,6 @@ import {
 } from "@builder.io/qwik";
 import { DocumentHead, useLocation, useNavigate } from "@builder.io/qwik-city";
 import { ArticleLink, fetchWikipediaOpenSearch } from "~/api/wikipedia";
-import { delay } from "~/lib/delay";
 
 export const Articles = component$((props: { data: ArticleLink[] }) => {
   return (
@@ -32,8 +31,9 @@ export default component$(() => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const initialValue = location.query.q || "";
   const searchTerm = useStore({
-    value: location.query.q || "",
+    value: initialValue,
   });
 
   useClientEffect$((ctx) => {
@@ -49,40 +49,34 @@ export default component$(() => {
   const searchResource = useResource$<ArticleLink[]>(async (ctx) => {
     ctx.track(() => searchTerm.value);
 
-    if (searchTerm.value.length < 2) return ctx.previous || [];
-
-    const controller = new AbortController();
-
-    ctx.cleanup(() => {
-      controller.abort();
-    });
-
-    // Debounce
-    await delay(400, controller.signal);
-
-    const value = await fetchWikipediaOpenSearch(
-      searchTerm.value,
-      controller.signal
-    );
+    const value = await fetchWikipediaOpenSearch(searchTerm.value);
 
     return value;
   });
+
+  const loading = searchResource.state === "pending";
 
   return (
     <main>
       <h1>
         Wikipedia search:{" "}
-        <input
-          value={searchTerm.value}
-          onInput$={({ target }) => {
-            const { value } = target as HTMLInputElement;
+        <form
+          preventDefault:submit
+          onSubmit$={(event) => {
+            const { elements } = event.target as any;
 
-            searchTerm.value = value;
+            searchTerm.value = elements.search.value;
           }}
-        />
+        >
+          <input name="search" value={initialValue} disabled={loading} />
+          <button type="submit" disabled={loading}>
+            Ok
+          </button>
+        </form>
       </h1>
       <Resource
         value={searchResource}
+        onPending={() => <div>Loading...</div>}
         onResolved={(articles) => <Articles data={articles}></Articles>}
       />
     </main>
