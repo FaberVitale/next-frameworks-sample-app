@@ -47,7 +47,6 @@ export default component$(() => {
       </nav>
       <Resource
         value={searchResource}
-        onPending={() => <div>Loading...</div>}
         onResolved={(articles) => <Articles data={articles} />}
       />
     </main>
