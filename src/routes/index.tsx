@@ -43,7 +43,7 @@ export default component$(() => {
         <div class="nav-brand">
           <a href="https://romajs.org/">RomaJS</a>
         </div>
-        <Form onSubmit$={handleSubmit} value={searchTerm.value} />
+        <Form onSubmit$={handleSubmit} value={initialValue} />
       </nav>
       <Resource
         value={searchResource}
