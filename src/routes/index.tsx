@@ -43,7 +43,7 @@ export default component$(() => {
         </div>
         <Form
           onSubmit$={handleSubmit}
-          value={searchTerm.value}
+          value={searchTerm}
           resource={searchResource}
         />
       </nav>
