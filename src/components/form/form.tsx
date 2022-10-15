@@ -1,12 +1,24 @@
-import { component$, PropFunction } from "@builder.io/qwik";
+import {
+  component$,
+  PropFunction,
+  ResourceReturn,
+  getPlatform,
+} from "@builder.io/qwik";
 import { SerachIcon } from "../icons/search";
 
 type Props = {
   onSubmit$: PropFunction<(value: string) => void>;
   value: string;
+  resource: ResourceReturn<unknown>;
 };
 
-export const Form = component$<Props>((props) => {
+export const isLoading = (resource: ResourceReturn<unknown>) => {
+  // The resource.state on the ssr is pending and becuase of resumabilty it never gets updated
+  // TODO: Open an issue
+  return !getPlatform().isServer && resource.state === "pending";
+};
+
+export const Form = component$<Props>(({ onSubmit$, value, resource }) => {
   return (
     <form
       class="form-group query-form"
@@ -14,7 +26,7 @@ export const Form = component$<Props>((props) => {
       onSubmit$={(event) => {
         const { elements } = event.target as any;
 
-        props.onSubmit$(elements.q.value);
+        onSubmit$(elements.q.value);
       }}
     >
       <label class="visually-hidden" for="q">
@@ -25,9 +37,9 @@ export const Form = component$<Props>((props) => {
         name="q"
         placeholder="query wikipedia"
         id="q"
-        value={props.value}
+        value={value}
       />
-      <button type="submit" class="btn-small">
+      <button type="submit" class="btn-small" disabled={isLoading(resource)}>
         <span class="visually-hidden">submit</span>
         <SerachIcon />
       </button>

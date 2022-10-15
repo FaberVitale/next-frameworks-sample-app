@@ -39,14 +39,19 @@ export default component$(() => {
 
   return (
     <main>
-      <nav class="border fixed split-nav navbar">
+      <nav class="border split-nav navbar">
         <div class="nav-brand">
           <a href="https://romajs.org/">RomaJS</a>
         </div>
-        <Form onSubmit$={handleSubmit} value={initialValue} />
+        <Form
+          onSubmit$={handleSubmit}
+          value={initialValue}
+          resource={searchResource}
+        />
       </nav>
       <Resource
         value={searchResource}
+        onPending={() => <div>Loading...</div>}
         onResolved={(articles) => <Articles data={articles} />}
       />
     </main>
