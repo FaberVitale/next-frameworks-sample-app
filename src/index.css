@@ -62,12 +62,20 @@ body {
 }
 
 .main {
+  overflow-x: hidden;
+  max-width: 96%;
   --main-spacing: 32px;
   width: min(1080px, 96%);
   min-height: 400px;
-  padding: 24px;
+  padding: 16px;
   margin: calc(var(--navbar-height) + var(--main-spacing)) auto
     var(--main-spacing);
+}
+
+@media screen and (min-width: 780px) {
+  .main {
+    padding: 24px;
+  }
 }
 
 .wikipedia-links {
@@ -88,4 +96,9 @@ body {
 
 .wikipedia-links li::before {
   content: unset;
+}
+
+
+input[type="search"] {
+  max-width: 160px;
 }
