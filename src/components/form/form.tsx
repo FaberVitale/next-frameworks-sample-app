@@ -3,18 +3,19 @@ import {
   PropFunction,
   ResourceReturn,
   getPlatform,
+  Signal,
 } from "@builder.io/qwik";
 import { SerachIcon } from "../icons/search";
 
 type Props = {
   onSubmit$: PropFunction<(value: string) => void>;
-  value: string;
+  value: Signal<string>;
   resource: ResourceReturn<unknown>;
 };
 
 export const isLoading = (resource: ResourceReturn<unknown>) => {
   // The resource.state on the ssr is pending and becuase of resumabilty it never gets updated
-  // TODO: Open an issue
+  // https://github.com/BuilderIO/qwik/issues/1739
   return !getPlatform().isServer && resource.state === "pending";
 };
 
@@ -37,6 +38,7 @@ export const Form = component$<Props>(({ onSubmit$, value, resource }) => {
         name="q"
         placeholder="query wikipedia"
         id="q"
+        // @ts-expect-error input.value accepts signals but the type is not updated
         value={value}
       />
       <button type="submit" class="btn-small" disabled={isLoading(resource)}>
