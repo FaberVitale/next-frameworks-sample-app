@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import { qwikVite } from "@builder.io/qwik/optimizer";
+import { qwikVite } from "@builder.io/qwik/optimizer.cjs";
 import { qwikCity } from "@builder.io/qwik-city/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import netlifyEdge from "@netlify/vite-plugin-netlify-edge";

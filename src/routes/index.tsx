@@ -1,6 +1,6 @@
 import {
   component$,
-  useStore,
+  useSignal,
   useResource$,
   Resource,
   $,
@@ -15,9 +15,7 @@ export default component$(() => {
   const navigate = useNavigate();
 
   const initialValue = location.query.q || "";
-  const searchTerm = useStore({
-    value: initialValue,
-  });
+  const searchTerm = useSignal(initialValue);
 
   const searchResource = useResource$<ArticleLink[]>(async (ctx) => {
     ctx.track(() => searchTerm.value);
@@ -32,7 +30,7 @@ export default component$(() => {
 
     const url = new URL(location.href);
 
-    url.searchParams.set("q", value);
+    url.searchParams.set("q", searchTerm.value);
 
     navigate.path = url.toString();
   });
@@ -45,7 +43,7 @@ export default component$(() => {
         </div>
         <Form
           onSubmit$={handleSubmit}
-          value={initialValue}
+          value={searchTerm.value}
           resource={searchResource}
         />
       </nav>
