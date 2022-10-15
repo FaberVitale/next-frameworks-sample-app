@@ -4,6 +4,7 @@ import {
   useResource$,
   Resource,
   $,
+  useClientEffect$,
 } from "@builder.io/qwik";
 import { DocumentHead, useLocation, useNavigate } from "@builder.io/qwik-city";
 import { ArticleLink, fetchWikipediaOpenSearch } from "~/api/wikipedia";
@@ -33,6 +34,12 @@ export default component$(() => {
     url.searchParams.set("q", searchTerm.value);
 
     navigate.path = url.toString();
+  });
+
+  useClientEffect$((ctx) => {
+    ctx.track(() => searchTerm.value);
+
+    console.log("Hello from Qwik!");
   });
 
   return (
