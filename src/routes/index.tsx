@@ -28,11 +28,13 @@ export default component$(() => {
   const handleSubmit = $((value: string) => {
     searchTerm.value = value.toLowerCase();
 
-    const url = new URL(location.href);
+    if (location.query.q !== searchTerm.value) {
+      const url = new URL(location.href);
 
-    url.searchParams.set("q", searchTerm.value);
+      url.searchParams.set("q", searchTerm.value);
 
-    navigate.path = url.toString();
+      navigate.path = url.toString();
+    }
   });
 
   console.log("Render Index!");
