@@ -4,7 +4,6 @@ import {
   useResource$,
   Resource,
   $,
-  useClientEffect$,
 } from "@builder.io/qwik";
 import { DocumentHead, useLocation, useNavigate } from "@builder.io/qwik-city";
 import { ArticleLink, fetchWikipediaOpenSearch } from "~/api/wikipedia";
@@ -27,7 +26,7 @@ export default component$(() => {
   });
 
   const handleSubmit = $((value: string) => {
-    searchTerm.value = value;
+    searchTerm.value = value.toLowerCase();
 
     const url = new URL(location.href);
 
@@ -36,17 +35,22 @@ export default component$(() => {
     navigate.path = url.toString();
   });
 
-  useClientEffect$((ctx) => {
-    ctx.track(() => searchTerm.value);
-
-    console.log("Hello from Qwik!");
-  });
+  console.log("Render Index!");
 
   return (
     <main>
       <nav class="border split-nav navbar">
         <div class="nav-brand">
-          <a href="https://romajs.org/">RomaJS</a>
+          <a
+            preventdefault:click
+            onClick$={() => {
+              console.log("Hello RomaJS!");
+              alert("Hello RomaJS!");
+            }}
+            href="https://romajs.org/"
+          >
+            RomaJS
+          </a>
         </div>
         <Form
           onSubmit$={handleSubmit}

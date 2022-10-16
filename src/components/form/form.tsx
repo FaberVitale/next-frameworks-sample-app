@@ -20,6 +20,8 @@ export const isLoading = (resource: ResourceReturn<unknown>) => {
 };
 
 export const Form = component$<Props>(({ onSubmit$, value, resource }) => {
+  console.log("Render Form!");
+
   return (
     <form
       class="form-group query-form"

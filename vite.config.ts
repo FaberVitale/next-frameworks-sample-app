@@ -6,6 +6,9 @@ import netlifyEdge from "@netlify/vite-plugin-netlify-edge";
 
 export default defineConfig(() => {
   return {
+    build: {
+      minify: false,
+    },
     plugins: [
       qwikCity(),
       qwikVite({
