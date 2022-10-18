@@ -22,15 +22,15 @@
     "qwik": "qwik"
   },
   "devDependencies": {
-    "@builder.io/qwik": "0.10.0",
-    "@builder.io/qwik-city": "0.0.111",
+    "@builder.io/qwik": "0.11.0",
+    "@builder.io/qwik-city": "0.0.112",
     "@netlify/vite-plugin-netlify-edge": "1.1.0",
     "@types/eslint": "8.4.6",
     "@types/node": "latest",
     "@typescript-eslint/eslint-plugin": "5.37.0",
     "@typescript-eslint/parser": "5.37.0",
     "eslint": "8.23.1",
-    "eslint-plugin-qwik": "0.10.0",
+    "eslint-plugin-qwik": "0.11.0",
     "node-fetch": "3.2.10",
     "prettier": "2.7.1",
     "typescript": "4.8.3",

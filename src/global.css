@@ -69,24 +69,3 @@ body {
   margin: calc(var(--navbar-height) + var(--main-spacing)) auto
     var(--main-spacing);
 }
-
-
-.wikipedia-links {
-  display: flex;
-  gap: 16px;
-  flex-flow: row wrap;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.wikipedia-links li {
-  list-style: none;
-  flex: 0 0 auto;
-  width: max-content;
-  white-space: nowrap;
-}
-
-.wikipedia-links li::before {
-  content: unset;
-}
